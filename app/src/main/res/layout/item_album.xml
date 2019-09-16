@@ -8,7 +8,7 @@
 
         <variable
             name="album"
-            type="com.jonzarate.jpmchasealbums.model.db.Album" />
+            type="com.jonzarate.jpmchasealbums.data.db.Album" />
 
     </data>
 

@@ -1,4 +1,4 @@
-package com.jonzarate.jpmchasealbums.model.net
+package com.jonzarate.jpmchasealbums.data.net
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

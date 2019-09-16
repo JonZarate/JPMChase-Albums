@@ -1,4 +1,4 @@
-package com.jonzarate.jpmchasealbums.model.db
+package com.jonzarate.jpmchasealbums.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.OnConflictStrategy
@@ -9,9 +9,9 @@ import kotlinx.coroutines.Deferred
 interface AlbumsDao {
 
     @Query("SELECT * FROM albums")
-    suspend fun getAlbums() : Deferred<LiveData<ArrayList<Album>>>
+    fun getAlbums() : ArrayList<Album>
 
     @Update(entity = Album::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(albums: List<Album>) : Int
+    fun insertAll(albums: List<Album>) : Int
 
 }

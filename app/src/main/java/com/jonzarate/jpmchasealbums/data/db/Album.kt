@@ -1,4 +1,4 @@
-package com.jonzarate.jpmchasealbums.model.db
+package com.jonzarate.jpmchasealbums.data.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

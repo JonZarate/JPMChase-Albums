@@ -1,4 +1,4 @@
-package com.jonzarate.jpmchasealbums.model.db
+package com.jonzarate.jpmchasealbums.data.db
 
 import android.content.Context
 import androidx.room.Room
