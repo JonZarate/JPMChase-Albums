@@ -1,24 +1,27 @@
 package com.jonzarate.jpmchasealbums.view.albums
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jonzarate.jpmchasealbums.data.db.Album
+import com.jonzarate.jpmchasealbums.databinding.ItemAlbumBinding
 
 class AlbumsAdapter : RecyclerView.Adapter<AlbumViewHolder>() {
 
-    val album = ArrayList<Album>()
+    val albums = ArrayList<Album>()
 
     override fun getItemCount(): Int {
-        return album.size
+        return albums.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemAlbumBinding.inflate(inflater, parent, false)
+        return AlbumViewHolder(binding)
     }
 
-
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        holder.setAlbum(albums[position])
     }
 
 }

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.jonzarate.jpmchasealbums.Injector
 import com.jonzarate.jpmchasealbums.R
 import com.jonzarate.jpmchasealbums.databinding.FragmentAlbumsBinding
@@ -26,7 +25,6 @@ class AlbumsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val factory = Injector.getAlbumsViewModelFactory(requireContext())
         val viewmodel =
             ViewModelProviders.of(this, factory).get(AlbumsViewModel::class.java)
@@ -38,21 +36,21 @@ class AlbumsFragment : Fragment() {
         setList(binding)
         setObservers(viewmodel)
 
-        return inflater.inflate(R.layout.fragment_albums, container, false)
+        return binding.root
     }
 
     private fun setList(binding: FragmentAlbumsBinding) {
         with(binding.albumList){
             adapter = this@AlbumsFragment.adapter
-            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
     private fun setObservers(viewModel: AlbumsViewModel) {
-        viewModel.albums.observe(this, Observer { albums ->
-            with (adapter.album){
-                clear()
-                addAll(albums)
+        viewModel.albums.observe(this, Observer { albumList ->
+            with (adapter){
+                albums.clear()
+                albums.addAll(albumList)
+                notifyDataSetChanged()
             }
         })
     }

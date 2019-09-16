@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object Injector {
 
     private const val DATABASE_NAME = "albums.db"
-    private const val BASE_URL = "albums.db"
+    private const val BASE_URL = "https://jsonplaceholder.typicode.com"
 
     @Volatile
     private var db: AlbumsDb? = null

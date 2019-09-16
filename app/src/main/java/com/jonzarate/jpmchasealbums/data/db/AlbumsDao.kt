@@ -1,17 +1,14 @@
 package com.jonzarate.jpmchasealbums.data.db
 
-import androidx.lifecycle.LiveData
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
-import kotlinx.coroutines.Deferred
+import androidx.room.*
 
+@Dao
 interface AlbumsDao {
 
-    @Query("SELECT * FROM albums")
-    fun getAlbums() : ArrayList<Album>
+    @Query("SELECT * FROM albums ORDER BY title ASC")
+    fun getAlbums() : List<Album>
 
-    @Update(entity = Album::class, onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(albums: List<Album>) : Int
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(albums: List<Album>)
 
 }

@@ -1,28 +1,25 @@
 package com.jonzarate.jpmchasealbums.view.albums
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jonzarate.jpmchasealbums.data.db.Album
 import com.jonzarate.jpmchasealbums.model.AlbumsRepository
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AlbumsViewModel(
     private val repo: AlbumsRepository
 ) : ViewModel() {
 
-    val albums = MutableLiveData<ArrayList<Album>>()
+    val albums = MutableLiveData<List<Album>>()
 
     init {
         viewModelScope.launch {
-            albums.postValue(repo.getAlbums())
+            withContext(Dispatchers.IO) {
+                albums.postValue(repo.getAlbums())
+            }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelScope.cancel()
     }
 }
