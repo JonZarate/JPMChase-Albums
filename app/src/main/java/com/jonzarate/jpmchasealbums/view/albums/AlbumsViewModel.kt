@@ -18,6 +18,7 @@ class AlbumsViewModel(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                println("launching")
                 albums.postValue(repo.getAlbums())
             }
         }

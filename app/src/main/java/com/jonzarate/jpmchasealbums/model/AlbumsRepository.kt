@@ -4,9 +4,9 @@ import com.jonzarate.jpmchasealbums.data.db.Album
 import com.jonzarate.jpmchasealbums.data.db.AlbumsDb
 import com.jonzarate.jpmchasealbums.data.net.AlbumsApi
 
-class AlbumsRepository (private val api: AlbumsApi, private val db: AlbumsDb) {
+open class AlbumsRepository (private val api: AlbumsApi, private val db: AlbumsDb) {
 
-    suspend fun getAlbums() : List<Album> {
+    open fun getAlbums() : List<Album> {
         try {
             val albumsResponse = api.getAlbums()
             val convertedAlbums = albumsResponse

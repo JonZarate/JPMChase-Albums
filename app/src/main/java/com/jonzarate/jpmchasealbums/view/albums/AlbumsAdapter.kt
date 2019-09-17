@@ -23,5 +23,4 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumViewHolder>() {
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         holder.setAlbum(albums[position])
     }
-
 }
