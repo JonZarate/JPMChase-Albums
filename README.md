@@ -20,7 +20,6 @@ This sample was built using Model-View-ViewModel (MVVM) along with Data Binding 
 
 This is just a small showcase, but if we were to maintain it long term, there's lots of things that could be done!
 
-- Mock the web responses on the tests
-
+* Mock the web responses on the tests
 * Gradually load albums with [Paging](https://developer.android.com/topic/libraries/architecture/paging)
 * On a larger project, might be worth using a Dependency Injection library - like [Dagger 2](https://github.com/google/dagger)
