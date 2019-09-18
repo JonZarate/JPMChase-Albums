@@ -5,6 +5,9 @@ import com.jonzarate.jpmchasealbums.data.net.AlbumsResponse
 
 object AlbumsHelper {
 
+    const val SEARCH_1_RESULT = "Appetite"
+    const val SEARCH_2_RESULT = "T"
+
     fun getAlbumResponse() = AlbumsResponse().apply{
        getAlbumSet().forEach { album ->
            add(com.jonzarate.jpmchasealbums.data.net.Album(album.id, album.title))
