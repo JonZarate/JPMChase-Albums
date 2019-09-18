@@ -1,35 +1,37 @@
 package com.jonzarate.jpmchasealbums.view.albums
 
+import com.jonzarate.jpmchasealbums.AlbumsHelper
 import com.jonzarate.jpmchasealbums.model.AlbumsRepository
-import io.mockk.clearMocks
-import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.verify
+import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.mockito.Mockito.*
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-open class AlbumsViewModelTests {
+@RunWith(RobolectricTestRunner::class)
+@Config(manifest = "AndroidManifest.xml", packageName = "com.jonzarate.jpmchasealbums", sdk = [21])
+class AlbumsViewModelTests {
 
-    private lateinit var repo: AlbumsRepository
+    private val repo = mock(AlbumsRepository::class.java)
 
     private fun createViewModel() = AlbumsViewModel(repo)
 
     @Before
     fun setup () {
-        repo = mockk<AlbumsRepository>()
+        Mockito.`when`(repo.getAlbums()).thenReturn(AlbumsHelper.getAlbumSet())
     }
 
     @After
     fun reset () {
-        clearMocks(repo)
+        Mockito.reset(repo)
     }
 
     @Test
-    @ExperimentalCoroutinesApi
-    fun test_AlbumsDownloadedOnStart() = runBlockingTest {
+    fun test_AlbumsDownloadedOnStart() {
         createViewModel()
-        verify(repo).getAlbums()
+        verify(repo, times(1)).getAlbums()
     }
 }

@@ -15,6 +15,9 @@ This sample was built using Model-View-ViewModel (MVVM) along with Data Binding 
 * [Room](https://developer.android.com/training/data-storage/room)
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 * [Coroutines](https://developer.android.com/kotlin/coroutines)
+* [Robolectric](http://robolectric.org)
+* [Mockito](https://github.com/mockito/mockito)
+* [MockK](https://github.com/mockk/mockk)
 
 ## Future improvements
 

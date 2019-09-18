@@ -1,84 +1,67 @@
 package com.jonzarate.jpmchasealbums.model
 
 import com.jonzarate.jpmchasealbums.AlbumsHelper
-import com.jonzarate.jpmchasealbums.data.db.Album
 import com.jonzarate.jpmchasealbums.data.db.AlbumsDao
 import com.jonzarate.jpmchasealbums.data.db.AlbumsDb
 import com.jonzarate.jpmchasealbums.data.net.AlbumsApi
+import io.mockk.clearMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import junit.framework.TestCase.assertEquals
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.mockito.Mockito.*
+import org.mockito.verification.VerificationMode
 
 class AlbumRepositoryTests {
 
     private val dao = mock(AlbumsDao::class.java)
     private val db = mock(AlbumsDb::class.java)
-    private val api = mock(AlbumsApi::class.java)
+    private val api = mockk<AlbumsApi>()
 
     private var repo = AlbumsRepository(api, db)
 
     @Before
     fun setup() {
-
+        `when`(db.albumsDao()).thenReturn(dao)
     }
 
     @After
     fun reset() {
-        Mockito.reset(db, api)
+        Mockito.reset(db)
+        clearMocks(api)
     }
 
     @Test
-    fun test_LocalAlbums_WithoutInternet () {
-        `when`(db.albumsDao()).thenReturn(dao)
+    fun if_AlbumsInDb_DoesNotFetch () {
         `when`(dao.getAlbums()).thenReturn(AlbumsHelper.getAlbumSet())
-        `when`(api.getAlbums()).thenThrow()
+        coEvery { api.getAlbums() } throws (Exception())
 
         repo.getAlbums()
 
-        verify(dao, times(1)).getAlbums()
-        verify(dao, never()).insertAll(ArgumentMatchers.anyList())
-        verify(api, times(1)).getAlbums()
+        verifyGetAlbums(times(1),  never(), 0)
     }
 
     @Test
-    fun test_LocalAlbums_WithInternet () {
-        `when`(db.albumsDao()).thenReturn(dao)
-        `when`(dao.getAlbums()).thenReturn(AlbumsHelper.getAlbumSet())
-        `when`(api.getAlbums()).thenReturn(AlbumsHelper.getAlbumResponse())
+    fun if_NoAlbumsInDb_DoesFetch () {
+        val injectedAlbums = AlbumsHelper.getAlbumResponse()
+        `when`(dao.getAlbums()).thenReturn(listOf())
+        coEvery { api.getAlbums() } coAnswers { injectedAlbums }
 
-        repo.getAlbums()
+        val albums = repo.getAlbums()
 
-        verify(dao, times(1)).getAlbums()
-        verify(dao, times(1)).insertAll(ArgumentMatchers.anyList())
-        verify(api, times(1)).getAlbums()
+        assertEquals (injectedAlbums.size, albums.size)
+        verifyGetAlbums(times(1),  times(1), 1)
     }
 
-    @Test
-    fun test_NoAlbums_WithoutInternet () {
-        `when`(db.albumsDao()).thenReturn(dao)
-        `when`(dao.getAlbums()).thenReturn(emptyList<Album>())
-        `when`(api.getAlbums()).thenThrow()
-
-        repo.getAlbums()
-
-        verify(dao, times(1)).getAlbums()
-        verify(dao, never()).insertAll(ArgumentMatchers.anyList())
-        verify(api, times(1)).getAlbums()
-    }
-
-    @Test
-    fun test_NoAlbums_WithInternet () {
-        `when`(db.albumsDao()).thenReturn(dao)
-        `when`(dao.getAlbums()).thenReturn(emptyList<Album>())
-        `when`(api.getAlbums()).thenReturn(AlbumsHelper.getAlbumResponse())
-
-        repo.getAlbums()
-
-        verify(dao, times(1)).getAlbums()
-        verify(dao, times(1)).insertAll(ArgumentMatchers.anyList())
-        verify(api, times(1)).getAlbums()
+    private fun verifyGetAlbums(
+        modeGetAlbums: VerificationMode, modeInsertAll: VerificationMode, intExactly: Int) {
+        verify(dao, modeGetAlbums).getAlbums()
+        verify(dao, modeInsertAll).insertAll(anyList())
+        coVerify(exactly = intExactly) { api.getAlbums() }
     }
 }

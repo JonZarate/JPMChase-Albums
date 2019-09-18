@@ -1,13 +1,14 @@
 package com.jonzarate.jpmchasealbums.data.net
 
+import retrofit2.CallAdapter
+import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
-    fun newInstance(baseUrl: String, factory: GsonConverterFactory): AlbumsApi {
+    fun newInstance(baseUrl: String, converter: Converter.Factory): AlbumsApi {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(factory)
+            .addConverterFactory(converter)
             .build()
             .create(AlbumsApi::class.java)
     }

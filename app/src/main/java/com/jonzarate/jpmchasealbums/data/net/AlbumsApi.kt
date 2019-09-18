@@ -1,9 +1,10 @@
 package com.jonzarate.jpmchasealbums.data.net
 
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 
 interface AlbumsApi {
 
     @GET("albums")
-    fun getAlbums() : AlbumsResponse
+    suspend fun getAlbums() : AlbumsResponse
 }

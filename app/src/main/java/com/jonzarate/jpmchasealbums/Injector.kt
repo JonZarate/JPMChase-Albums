@@ -6,7 +6,6 @@ import com.jonzarate.jpmchasealbums.data.db.RoomHelper
 import com.jonzarate.jpmchasealbums.data.net.AlbumsApi
 import com.jonzarate.jpmchasealbums.data.net.RetrofitHelper
 import com.jonzarate.jpmchasealbums.model.AlbumsRepository
-import com.jonzarate.jpmchasealbums.view.albums.AlbumsViewModel
 import com.jonzarate.jpmchasealbums.view.albums.AlbumsViewModelFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -34,7 +33,9 @@ object Injector {
 
     private fun getAlbumsApi() : AlbumsApi {
         return api ?: synchronized(this) {
-            RetrofitHelper.newInstance(BASE_URL, GsonConverterFactory.create()).apply {
+            RetrofitHelper.newInstance(
+                BASE_URL, GsonConverterFactory.create()
+            ).apply {
                 api = this
             }
         }
