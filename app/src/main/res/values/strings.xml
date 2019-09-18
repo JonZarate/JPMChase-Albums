@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">JPMChase Albums</string>
+    <string name="fragment_albums_search_hint">Search ...</string>
 </resources>

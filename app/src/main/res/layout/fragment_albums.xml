@@ -9,6 +9,18 @@
         android:layout_height="match_parent"
         tools:context=".view.albums.AlbumsFragment">
 
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textFilter"
+            android:hint="@string/fragment_albums_search_hint"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/album_list"
             android:layout_width="0dp"
@@ -17,6 +29,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/search" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

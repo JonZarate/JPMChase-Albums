@@ -1,9 +1,12 @@
 package com.jonzarate.jpmchasealbums.view.albums
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +22,7 @@ class AlbumsFragment : Fragment() {
         }
     }
 
+    private lateinit var viewmodel : AlbumsViewModel
     private val adapter = AlbumsAdapter()
 
     override fun onCreateView(
@@ -26,7 +30,7 @@ class AlbumsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val factory = Injector.getAlbumsViewModelFactory(requireContext())
-        val viewmodel =
+        viewmodel =
             ViewModelProviders.of(this, factory).get(AlbumsViewModel::class.java)
 
         val binding = FragmentAlbumsBinding.inflate(inflater, container, false).apply {
@@ -34,6 +38,7 @@ class AlbumsFragment : Fragment() {
         }
 
         setList(binding)
+        setListeners(binding)
         setObservers(viewmodel)
 
         return binding.root
@@ -43,6 +48,18 @@ class AlbumsFragment : Fragment() {
         with(binding.albumList){
             adapter = this@AlbumsFragment.adapter
         }
+    }
+
+    private fun setListeners(binding: FragmentAlbumsBinding) {
+        binding.search.addTextChangedListener( object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) { }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewmodel.onTyped(s.toString())
+            }
+        })
     }
 
     private fun setObservers(viewModel: AlbumsViewModel) {

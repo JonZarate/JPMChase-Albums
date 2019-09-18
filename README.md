@@ -1,8 +1,8 @@
 # Albums exercise
 
-A very simple app that downloads and displays a list of albums. Titles are ordered alphabetically and all is stored locally. 
+A very simple app that downloads and displays a list of albums. Titles are ordered alphabetically and all is stored locally. I added a search bar to allow me make more tests.
 
-![](/images/main.png)
+![](/images/albums.png) ![](/images/filtered.png)
 
 ## Architecture
 

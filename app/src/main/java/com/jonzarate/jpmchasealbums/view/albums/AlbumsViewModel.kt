@@ -13,13 +13,21 @@ class AlbumsViewModel(
     private val repo: AlbumsRepository
 ) : ViewModel() {
 
+    private var allAlbums : List<Album>? = null
     val albums = MutableLiveData<List<Album>>()
 
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                albums.postValue(repo.getAlbums())
+                allAlbums = repo.getAlbums()
+                albums.postValue(allAlbums)
             }
+        }
+    }
+
+    fun onTyped(text: String) {
+        allAlbums?.filter { album -> album.title.contains(text) }.also {
+            albums.postValue(it)
         }
     }
 }
